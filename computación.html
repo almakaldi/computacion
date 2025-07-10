@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Dibujo p5.js con botón reversible</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+</head>
+<body>
+  <script>
+    let boton;
+    let estadoRojo = false;
+    let vertices = [];
+
+    function setup() {
+      createCanvas(1200, 600);
+
+      // Generar los puntos solo una vez
+      for (let i = 0; i < 30; i++) {
+        vertices.push(createVector(random(width), random(height)));
+      }
+
+      // Botón para alternar el estado
+      boton = createButton("Cambiar estilo");
+      boton.position(20, 20);
+      boton.mousePressed(toggleEstilo);
+
+      dibujarForma();
+    }
+
+    function toggleEstilo() {
+      estadoRojo = !estadoRojo; // Alternar entre true/false
+      dibujarForma(); // Redibujar con el nuevo estado
+    }
+
+    function dibujarForma() {
+      if (estadoRojo) {
+        background(255, 0, 0);  // Fondo rojo
+        noStroke();
+        fill(255);              // Relleno blanco sobre rojo
+      } else {
+        background(255);        // Fondo blanco
+        stroke(0);
+        strokeWeight(15);
+        noFill();
+      }
+
+      beginShape();
+      for (let v of vertices) {
+        vertex(v.x, v.y);
+      }
+      endShape(CLOSE);
+    }
+  </script>
+</body>
+</html>
+
